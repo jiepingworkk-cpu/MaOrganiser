@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Plus, X } from "lucide-react";
-import { addItem } from "~/lib/db";
+import { Check, Plus, Trash, X } from "lucide-react";
+import { addItem, removeItem } from "~/lib/db";
 import { useAuth } from "~/lib/auth";
 import { useLocale } from "~/lib/i18n";
 import { PALETTE, categoriesByScope } from "~/lib/categories";
@@ -29,6 +29,7 @@ export default function CategoryPicker({
   const [name, setName] = useState("");
   const [color, setColor] = useState(PALETTE[0]);
   const opts = categoriesByScope(categories, scope);
+  const customOpts = opts.filter((c) => !c.preset);
 
   async function addCustom() {
     if (!user || !name.trim()) return;
@@ -41,6 +42,13 @@ export default function CategoryPicker({
     setName("");
     setAdding(false);
     setColor(PALETTE[0]);
+  }
+
+  async function deleteCustom(c: Category) {
+    if (!user) return;
+    if (!window.confirm(t("catConfirmDelete", { name: c.name }))) return;
+    await removeItem(user.uid, "categories", c.id);
+    if (value === c.id) onChange(null);
   }
 
   return (
@@ -110,6 +118,41 @@ export default function CategoryPicker({
               >
                 {t("catAddBtn")}
               </button>
+
+              <div className="mt-3 border-t border-slate-100 pt-3 dark:border-slate-800">
+                <p className="mb-2 text-xs font-semibold text-slate-400 dark:text-slate-500">
+                  {t("catYours")}
+                </p>
+                {customOpts.length === 0 ? (
+                  <p className="rounded-lg bg-slate-50 px-3 py-2.5 text-center text-xs text-slate-400 dark:bg-slate-800 dark:text-slate-500">
+                    {t("catNone")}
+                  </p>
+                ) : (
+                  <div className="max-h-40 space-y-1.5 overflow-y-auto">
+                    {customOpts.map((c) => (
+                      <div
+                        key={c.id}
+                        className="flex items-center gap-2 rounded-lg bg-slate-50 px-2.5 py-2 dark:bg-slate-800"
+                      >
+                        <span
+                          className="h-2.5 w-2.5 shrink-0 rounded-full"
+                          style={{ backgroundColor: c.color }}
+                        />
+                        <span className="min-w-0 flex-1 truncate text-sm text-slate-700 dark:text-slate-200">
+                          {c.name}
+                        </span>
+                        <button
+                          onClick={() => deleteCustom(c)}
+                          className="rounded-lg p-1.5 text-slate-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/40 dark:hover:text-red-400"
+                          aria-label={`${t("catDeleteBtn")}: ${c.name}`}
+                        >
+                          <Trash className="h-4 w-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         ) : (

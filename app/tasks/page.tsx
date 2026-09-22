@@ -8,6 +8,7 @@ import { useLocale, type TKey } from "~/lib/i18n";
 import { mergeCategories, findCategory } from "~/lib/categories";
 import type { TaskItem, Category, Priority } from "~/lib/types";
 import { getUrgency, URGENCY, compareUrgency, daysUntil } from "~/lib/urgency";
+import { formatDateShort } from "~/lib/dates";
 import TaskModal from "~/components/TaskModal";
 import { Chip, PageHeader, EmptyState } from "~/components/ui";
 
@@ -35,6 +36,7 @@ export default function TasksPage() {
 
   const [filter, setFilter] = useState<Filter>("open");
   const [title, setTitle] = useState("");
+  const [dueStart, setDueStart] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [priority, setPriority] = useState<Priority>("medium");
   const [modal, setModal] = useState<{
@@ -68,10 +70,12 @@ export default function TasksPage() {
       title: title.trim(),
       priority,
       dueDate: dueDate || null,
+      dueStart: dueStart && dueDate ? dueStart : undefined,
       done: false,
       createdAt: new Date().toISOString(),
     });
     setTitle("");
+    setDueStart("");
     setDueDate("");
   }
 
@@ -108,7 +112,7 @@ export default function TasksPage() {
       {/* Quick add */}
       <form
         onSubmit={quickAdd}
-        className="mb-4 grid grid-cols-2 gap-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:grid-cols-[1fr_auto_auto_auto] sm:p-4 dark:border-slate-800 dark:bg-slate-900"
+        className="mb-4 grid grid-cols-2 gap-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:grid-cols-[1fr_auto_auto_auto_auto] sm:p-4 dark:border-slate-800 dark:bg-slate-900"
       >
         <input
           value={title}
@@ -118,8 +122,18 @@ export default function TasksPage() {
         />
         <input
           type="date"
+          value={dueStart}
+          onChange={(e) => setDueStart(e.target.value)}
+          title={t("labelStartDate")}
+          aria-label={t("labelStartDate")}
+          className={`${inputCls} h-10`}
+        />
+        <input
+          type="date"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
+          title={t("labelTo")}
+          aria-label={t("labelTo")}
           className={`${inputCls} h-10`}
         />
         <select
@@ -220,6 +234,11 @@ export default function TasksPage() {
                           style={{ backgroundColor: cat.color }}
                         />
                         {cat.name}
+                      </span>
+                    )}
+                    {x.dueStart && x.dueStart !== x.dueDate && (
+                      <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500">
+                        {formatDateShort(x.dueStart)} – {formatDateShort(x.dueDate!)}
                       </span>
                     )}
                     <Chip

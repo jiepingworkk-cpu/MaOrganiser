@@ -26,8 +26,10 @@ export interface TaskItem {
   title: string;
   categoryId?: string;
   priority: Priority;
-  /** ISO date-only string "yyyy-MM-dd" or null */
+  /** ISO date-only string "yyyy-MM-dd" or null — วันสิ้นสุด/กำหนดส่ง */
   dueDate?: string | null;
+  /** ISO date-only string "yyyy-MM-dd" or null — วันเริ่มต้น (ถ้ากำหนดเป็นช่วง) */
+  dueStart?: string | null;
   done: boolean;
   note?: string;
   createdAt: string;

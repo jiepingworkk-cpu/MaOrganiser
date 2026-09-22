@@ -29,6 +29,8 @@ export default function TaskModal({
     existing?.categoryId ?? null
   );
   const [dueDate, setDueDate] = useState(existing?.dueDate ?? defaultDate ?? "");
+  const [hasRange, setHasRange] = useState(Boolean(existing?.dueStart));
+  const [dueStart, setDueStart] = useState(existing?.dueStart ?? "");
   const [priority, setPriority] = useState<Priority>(existing?.priority ?? "medium");
   const [done, setDone] = useState(existing?.done ?? false);
   const [note, setNote] = useState(existing?.note ?? "");
@@ -41,6 +43,7 @@ export default function TaskModal({
       title: title.trim(),
       categoryId: categoryId ?? undefined,
       dueDate: dueDate || null,
+      dueStart: hasRange && dueDate && dueStart ? dueStart : undefined,
       priority,
       done,
       note: note.trim() || undefined,
@@ -92,13 +95,47 @@ export default function TaskModal({
         </div>
 
         <div>
-          <Label>{t("labelDue")}</Label>
-          <input
-            type="date"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-            className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-800 outline-none focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
-          />
+          <label
+            onClick={() => setHasRange((r) => !r)}
+            className="mb-1.5 flex w-fit cursor-pointer items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400"
+          >
+            <input
+              type="checkbox"
+              checked={hasRange}
+              onChange={(e) => setHasRange(e.target.checked)}
+              className="h-3.5 w-3.5 accent-slate-900"
+            />
+            {t("taskRangeCheck")}
+          </label>
+          {hasRange ? (
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <Label>{t("labelStartDate")}</Label>
+                <input
+                  type="date"
+                  value={dueStart}
+                  onChange={(e) => setDueStart(e.target.value)}
+                  className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-800 outline-none focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                />
+              </div>
+              <div>
+                <Label>{t("labelTo")}</Label>
+                <input
+                  type="date"
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                  className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-800 outline-none focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                />
+              </div>
+            </div>
+          ) : (
+            <input
+              type="date"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+              className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-800 outline-none focus:border-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+            />
+          )}
         </div>
 
         <div>

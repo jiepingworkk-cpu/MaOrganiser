@@ -102,6 +102,9 @@ const thDict = {
   taskEditTitle: "แก้ไขงาน",
   taskTitlePh: "เช่น ทำโจทย์เคมี 10 ข้อ",
   taskNotePh: "รายละเอียดเพิ่มเติม…",
+  taskRangeCheck: "กำหนดเป็นช่วงวันที่ (เริ่ม–สิ้นสุด)",
+  labelStartDate: "วันเริ่ม",
+  labelTo: "ถึง",
 
   // calendar
   calSubtitle: "แตะวันเพื่อดู/เพิ่มกิจกรรม",
@@ -119,6 +122,9 @@ const thDict = {
   calEventDate: "วันที่",
   calEventPh: "เช่น ลงแข่งฟิสิกส์ SOS ระดับเขต",
   calEventNotePh: "รายละเอียด เวลา หรือลิงก์…",
+  calShowTasks: "แสดงงานในปฏิทิน",
+  calTaskSection: "งาน",
+  calNoTasksDay: "ไม่มีงานในวันนี้",
 
   // notes
   notesSubtitle: "จดบันทึกตามวิชา/หัวข้อ ค้นหาได้ทุกที่",
@@ -212,6 +218,11 @@ const thDict = {
   catPhName: "ชื่อหมวด เช่น สอบเข้า ม.4, งานอดิเรก…",
   catAddBtn: "เพิ่มหมวด",
   catPick: "เลือกหมวด",
+  catYours: "หมวดที่สร้างเอง",
+  catNone: "ยังไม่มีหมวดที่สร้างเอง",
+  catDeleteBtn: "ลบหมวด",
+  catConfirmDelete:
+    'ลบหมวด "{name}" หรือไม่? กิจกรรม/งานที่ใช้หมวดนี้ยังอยู่ (แสดงแบบค่าเริ่มต้น)',
 
   // confirm dialogs
   confirmDeleteEvent: 'ลบ "{name}" หรือไม่?',
@@ -312,6 +323,9 @@ const enDict: Record<TKey, string | string[]> = {
   taskEditTitle: "Edit task",
   taskTitlePh: "e.g. solve 10 chemistry problems",
   taskNotePh: "Extra details…",
+  taskRangeCheck: "Set a date range (start–end)",
+  labelStartDate: "Start",
+  labelTo: "To",
 
   calSubtitle: "Tap a day to view / add events",
   calAddEvent: "Add event",
@@ -328,6 +342,9 @@ const enDict: Record<TKey, string | string[]> = {
   calEventDate: "Date",
   calEventPh: "e.g. regional physics competition",
   calEventNotePh: "Details, time, or a link…",
+  calShowTasks: "Show tasks on calendar",
+  calTaskSection: "Tasks",
+  calNoTasksDay: "No tasks on this day",
 
   notesSubtitle: "Free-form notes by subject — searchable everywhere",
   notesNew: "New note",
@@ -416,6 +433,11 @@ const enDict: Record<TKey, string | string[]> = {
   catPhName: "e.g. Entrance exam, Hobby…",
   catAddBtn: "Add category",
   catPick: "Choose category",
+  catYours: "Your categories",
+  catNone: "No custom categories yet",
+  catDeleteBtn: "Delete category",
+  catConfirmDelete:
+    'Delete category "{name}"? Existing events/tasks keep their data — they just show as default',
 
   confirmDeleteEvent: 'Delete "{name}"?',
   confirmDeleteTask: 'Delete task "{name}"?',
