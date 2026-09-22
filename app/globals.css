@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: var(--font-noto-thai), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --background: #f6f7f9;
+  --foreground: #0f172a;
+}
+
+.dark {
+  --background: #0b1220;
+  --foreground: #e2e8f0;
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ซ่อน scrollbar แนวตั้งใน list ที่ไม่ต้องการให้เห็น */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.55;
+}
+
+::selection {
+  background: #dbeafe;
+}
+.dark ::selection {
+  background: #1e3a5f;
+}
